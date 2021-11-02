@@ -1,4 +1,4 @@
-module gitlab.octafx.com/go-libs/jsonrpc
+module github.com/kirgizz/json-rpc
 
 go 1.15
 

@@ -6,19 +6,14 @@ import (
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
-	"gitlab.octafx.com/go-libs/tracing"
 )
 
 type HTTPServer struct {
 	server *Server
-	tracer opentracing.Tracer
 	logger *zap.Logger
 }
 
 func NewHTTPServer(methods map[string]Handler, tracer opentracing.Tracer, logger *zap.Logger) *HTTPServer {
-	if tracer == nil {
-		tracer = opentracing.NoopTracer{}
-	}
 
 	httpServer := &HTTPServer{
 		server: NewServer(methods),
