@@ -2,7 +2,6 @@ package jsonrpc
 
 import (
 	"github.com/opentracing/opentracing-go"
-	"github.com/opentracing/opentracing-go/ext"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -13,11 +12,10 @@ type HTTPServer struct {
 	logger *zap.Logger
 }
 
-func NewHTTPServer(methods map[string]Handler, tracer opentracing.Tracer, logger *zap.Logger) *HTTPServer {
+func NewHTTPServer(methods map[string]Handler, logger *zap.Logger) *HTTPServer {
 
 	httpServer := &HTTPServer{
 		server: NewServer(methods),
-		tracer: tracer,
 		logger: logger,
 	}
 
@@ -27,19 +25,8 @@ func NewHTTPServer(methods map[string]Handler, tracer opentracing.Tracer, logger
 func (s *HTTPServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	spanCtx, err := s.tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
-	if err != nil && err != opentracing.ErrSpanContextNotFound {
-		s.logger.Warn("can't extract span context from headers", zap.Error(err))
-	}
 
-	span := s.tracer.StartSpan("handle rpc request", ext.RPCServerOption(spanCtx))
-	defer span.Finish()
-
-	span.SetTag("rpc.endpoint", r.Host + r.URL.Path)
-	ext.HTTPMethod.Set(span, r.Method)
-	tracing.ProcessTraceId(span)
-
-	ctx := opentracing.ContextWithSpan(r.Context(), span)
+	ctx := opentracing.ContextWithSpan(r.Context(), nil)
 
 	body, err := ioutil.ReadAll(r.Body)
 	var resp []byte
