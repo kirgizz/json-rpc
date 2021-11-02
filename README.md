@@ -11,7 +11,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"gitlab.octafx.com/go-libs/jsonrpc"
+	jsonrpc "github.com/kirgizz/json-rpc"
 	"net/http"
 )
 
@@ -60,7 +60,7 @@ package main
 
 import (
 	"fmt"
-	"gitlab.octafx.com/go-libs/jsonrpc"
+	jsonrpc "github.com/kirgizz/json-rpc"
 )
 
 type SumParams struct {
@@ -103,7 +103,7 @@ package main
 
 import (
 	"fmt"
-	"gitlab.octafx.com/go-libs/jsonrpc"
+	jsonrpc "github.com/kirgizz/json-rpc"
 )
 
 type SumParams struct {
@@ -167,7 +167,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/valyala/fasthttp"
-	"gitlab.octafx.com/go-libs/jsonrpc"
+	jsonrpc "github.com/kirgizz/json-rpc"
 )
 
 type SumParams struct {
@@ -215,7 +215,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"gitlab.octafx.com/go-libs/jsonrpc"
+	jsonrpc "github.com/kirgizz/json-rpc"
 	"net"
 	"net/http"
 )
